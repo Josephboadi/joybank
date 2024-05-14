@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: joy-bank-api-deployment
+  labels:
+    app: joy-bank-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: joy-bank-api
+  template:
+    metadata:
+      labels:
+        app: joy-bank-api
+    spec:
+      containers:
+      - name: joy-bank-api
+        image: 982900456759.dkr.ecr.eu-north-1.amazonaws.com/joybank:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
