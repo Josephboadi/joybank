@@ -17,5 +17,6 @@ spec:
       containers:
       - name: joy-bank-api
         image: 982900456759.dkr.ecr.eu-north-1.amazonaws.com/joybank:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
