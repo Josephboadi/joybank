@@ -1,13 +1,14 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"os"
 	"testing"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/josephboadi/joybank/util"
-	_ "github.com/lib/pq"
 )
 
 // const (
@@ -15,7 +16,7 @@ import (
 // 	dbSource = "postgresql://root:secret@localhost:5434/joy_bank?sslmode=disable"
 // )
 
-var testQueries *Queries
+var testStore Store
 var testDB *sql.DB
 
 
@@ -25,11 +26,11 @@ func TestMain(m * testing.M){
 		log.Fatal("cannot load config:", err)
 	}
 	
-	testDB, err = sql.Open(config.DBDriver, config.DBStore)
+	connPool, err := pgxpool.New(context.Background(), config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db", err)
 	}
-	testQueries = New(testDB)
+	testStore = NewStore(connPool)
 	
 	os.Exit(m.Run())
 }
