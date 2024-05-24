@@ -1,20 +1,15 @@
 apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: nginx
-spec:
-  controller: k8s.io/ingress-nginx
----
-apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: joy-bank-ingress
+  name: joy-bank-ingress-grpc
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    nginix.ingress.kubernetes.io/ssl-redirect: "true"
+    nginix.ingress.kubernetes.io/backend-protocol: "GRPC"
 spec:
   ingressClassName: nginx
   rules:
-  - host: "api.joy-bank.vip"
+  - host: "gapi.joy-bank.vip"
     http:
       paths:
       - pathType: Prefix
@@ -23,9 +18,8 @@ spec:
           service:
             name: joy-bank-api-service
             port:
-              number: 80
+              number: 90
   tls:
   - hosts: 
-    - api.joy-bank.vip
-    secretName: joy-bank-api-cert
-  
+    - gapi.joy-bank.vip
+    secretName: joy-bank-gapi-cert
