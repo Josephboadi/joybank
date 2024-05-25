@@ -45,7 +45,7 @@ jobs:
         docker push -a $REGISTRY/$REPOSITORY
 
     - name: Update kube config
-      run: aws eks update-kubeconfig --name joy-bank-eks --region eu-north-1
+      run: aws eks update-kubeconfig --name joy-bank --region eu-north-1
 
     - name: Deploy image to Amazon EKS
       run: |
